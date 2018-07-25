@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     let minValue: Int = 1
     let maxValue: Int = 100
     
-    var currentScore: Int = 0
+    var points: Int = 0
     var currentRound: Int = 0
     
     @IBOutlet weak var slider: UISlider!
@@ -43,13 +43,18 @@ class ViewController: UIViewController {
     @IBAction func showAlert() {
         caculateScore()
         let message = "The value of the slider is: \(currentValue)" +
-        "\nThe target value is: \(targetValue)"
+        "\nThe target value is: \(targetValue)" +
+         "\nYou scored \(points) points"
+        
         let title: String
-        if currentValue == targetValue {
-            title = "You win!"
-        }
-        else {
-            title = "You lose!"
+        if points == 0 {
+            title = "Perfect!"
+        } else if points > 95 {
+            title = "You almost had it!"
+        } else if points > 90 {
+            title = "Pretty good!"
+        } else {
+            title = "Not even close..."
         }
         
         let alert = UIAlertController(title: title,
@@ -69,11 +74,11 @@ class ViewController: UIViewController {
     }
     
     func caculateScore() {
-        currentScore = 100 - abs(targetValue - currentValue)
+        points = 100 - abs(targetValue - currentValue)
     }
     func reset() {
         currentRound = 0
-        currentScore = 0
+        points = 0
     }
     func startNewRound() {
         
@@ -87,7 +92,7 @@ class ViewController: UIViewController {
     
     func updateLabels() {
         targetLabel.text = String(targetValue)
-        scoreLabel.text = String(currentScore)
+        scoreLabel.text = String(points)
         roundLabel.text = String(currentRound)
     }
 }
